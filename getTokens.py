@@ -34,5 +34,7 @@ def distribute_tokens(players=4, domino_type=7):
 
 
 if __name__ == "__main__":
-    board = distribute_tokens(4, 7)
+    board = distribute_tokens(2, 7)
     print(board)
+    
+   

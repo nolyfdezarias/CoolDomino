@@ -1,41 +1,23 @@
-
+from getTokens import get_tokens,distribute_tokens
 
 class Handler():
-    def __init__(self,playerList,dominoType = 6 ,initPlayer = 0):
+    def __init__(self,playerList,dominoType = 7 ,initPlayer = 0):
         self.board = []
         self.type = dominoType
         self.playerList = playerList
-        self.6Tokens = [(0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),
-                        (2,2),(2,3),(2,4),(2,5),(2,6),(3,3),(3,4),(3,5),(3,6),(4,4),(4,5),(4,6),(5,5),
-                        (5,6),(6,6)]
-        self.9Tokens = [(0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(0,6),(0,7),(0,8),(0,9),(1,1),(1,2),(1,3),
-                        (1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),
-                        (2,9),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8),(3,9),(4,4),(4,5),(4,6),(4,7),(4,8),
-                        (4,9),(5,5),(5,6),(5,7),(5,8),(5,9),(6,6),(6,7),(6,8),(6,9),(7,7),(7,8),(7,9),
-                        (8,8),(8,9),(9,9)]
-        
         self.initPlayer = initPlayer
         self.sameBoard = 0
     
-    def getTokens(self):
-        if(self.type = 6):
-            self.getTokens(7,28,self.6Tokens)
-        else:
-            self.getTokens(10,55,self.9Tokens)
-    
-    def getTokens(self,tokensToAssing,amountTokens,tokens):
-        randomList = getRandoms(tokensToAssing * len(self.playerList) , amountTokens)
-        player = -1
-        assingList = []
-        for i in range(len(randomList)):
-            if(i % 7 == 0):
-                player +=  1
-                if(len(assingList) > 0):
-                    self.playerList[player].tokens = list(assingList)
-                assingList = []
-            
-            assingList.append(tokens[randomList[i]])
-    
+    def assingTokens(self):
+        randomList = distribute_tokens(players=len(self.playerList), domino_type=self.type)
+        
+        i = 1
+        j = 0
+        while(i < len(randomList)):
+            self.playerList[j].tokens = list(randomList[i])
+            i += 1
+            j += 1
+
     def getRandoms(self,tokensToAssing,amountTokens):
         pass
     
@@ -46,7 +28,7 @@ class Handler():
             for i in range(len( self.playerList)):
                 playersPoints.append((self.getPoints(self.playerList[i].tokens),i))
             
-            sort(playerPoints)
+            playerPoints.sort()
 
             winnerPoints,winnerPlayer = playersPoints[0]
             winnerList.append(winnerPlayer)
@@ -65,7 +47,6 @@ class Handler():
                 if(len(self.playerList[i].tokens) == 0):
                     winnerList.append(i)
 
-
         return winnerList
 
     def play(self):
@@ -79,22 +60,22 @@ class Handler():
 
             move,pos = move    
             a,b = self.board[0]
-            c,d = move
+            c,d = self.board.last()
 
             if(pos == 0):
-                if(a == c):
-                    self.board.insert(0, (d,c))
-                elif(a == d):
-                    self.board.insert(0,move)
+                if(a == move[1]):
+                    self.board.insert(0, move)
+                elif(a == move[0]):
+                    self.board.insert(0,move.reverse())
                 else:
                     pass
                     #Jugada invalida
 
             else:
-                if(b == c):
+                if(d == move[0]):
                     self.board.append(move)
-                elif(b == d):
-                    self.board.append((d,c))
+                elif(d == move[1]):
+                    self.board.append(move.reverse())
                 else:
                     pass
                     #Jugada invalida

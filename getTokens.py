@@ -17,7 +17,7 @@ def distribute_tokens(players=4, domino_type=7):
         :return list(list(list(int))): List of tokens that each player has, 
             index 0 is the rest of remaining tokens 
     '''
-    if players not in (2, 4):
+    if players not in (2,3, 4):
         raise Exception('Wrong number of players!')
 
     tokens = get_tokens(domino_type)

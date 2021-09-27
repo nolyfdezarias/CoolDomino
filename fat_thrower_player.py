@@ -6,7 +6,9 @@ def play(board, tokens):
         head or tail of the board
     '''
     if not len(board):
-        return tokens[0], 0
+        # go out with the biggest one
+        _sum = [sum(token) for token in tokens]
+        return _sum.index(max(_sum)), 0
 
     left  = board[0][0]
     right = board[-1][1]

@@ -28,7 +28,7 @@ def play(board, tokens):
         # Of all the tokens that I can play, 
         # I order them by the number of repetitions 
         # that I have on the other side of the token 
-        # and I play the one that has the most repetition
+        # and I play the one that has the less repetition
         if token[0] == left:
             token.reverse()
             possible_moves.append((-1*count[token[0]], copy.deepcopy(token), 0))

@@ -9,6 +9,7 @@ class Player:
 		self.play = play_function
 
 players_names = ['dummy_player', 'fat_thrower_player','minimize_fails_player', 'most_accompanied_player']
+#players_names = ['invert_most_accompanied_player', 'fat_thrower_player','minimize_fails_player', 'most_accompanied_player']
 
 def get_players(players_names):
     res = []
@@ -58,6 +59,7 @@ def simulate(times=10000):
     players = get_players(players_names)
     result = [0] * len(players)
 
+    #for i in range(times):
     for i in tqdm(range(times)):
         result[run(players, 10)] += 1
     

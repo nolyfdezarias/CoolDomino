@@ -38,7 +38,7 @@ def run(players, domino_type=7):
                 # tranque
                 winner = count_tokens(tokens)
                 # print(str(winner) + ' won!')
-                return start
+                return winner
             start = (start + 1) % len(players)
             continue
         pas = 0

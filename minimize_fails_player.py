@@ -20,10 +20,12 @@ def play(board, tokens):
         fails[token[1]] += 1
 
     for fail in fails:
+        #count the number of fails
         if fail == 0:
             c_fails += 1
 
     for token in tokens:
+        #how many new fails generate this token
         if fails[token[0]] == 1 and fails[token[1]] == 1:
             c_fail = c_fails + 2
         elif fails[token[0]] == 1 or fails[token[1]] == 1:

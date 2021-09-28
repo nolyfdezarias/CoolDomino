@@ -1,12 +1,14 @@
 from getTokens import *
 from importlib import import_module as load
+from tqdm import tqdm
+import pandas as pd
 
 class Player:
 	def __init__(self, name, play_function):
 		self.name = name
 		self.play = play_function
 
-players_names = ['dummy_player', 'fat_thrower_player','minimize_fails_player']
+players_names = ['dummy_player', 'fat_thrower_player','minimize_fails_player', 'most_accompanied_player']
 
 def get_players(players_names):
     res = []
@@ -22,9 +24,9 @@ def count_tokens(tokens):
             _sum[i] += sum(token)
     return _sum.index(min(_sum)) 
 
-def run(players):
+def run(players, domino_type=7):
     board = []
-    tokens  = distribute_tokens(len(players))[1:]
+    tokens  = distribute_tokens(len(players), domino_type)[1:]
     # to do
     # who starts? the one with the biggest double
     start = pas = 0
@@ -35,7 +37,7 @@ def run(players):
             if pas == len(players):
                 # tranque
                 winner = count_tokens(tokens)
-                print(str(winner) + ' won!')
+                # print(str(winner) + ' won!')
                 return start
             start = (start + 1) % len(players)
             continue
@@ -47,20 +49,27 @@ def run(players):
         #print(tokens)
 
         if not len(tokens[start]):
-            print(str(start) + ' won!')
+            # print(str(start) + ' won!')
             return start
 
         start = (start + 1) % len(players)
 
-def simulate(times=1000):
+def simulate(times=10000):
     players = get_players(players_names)
     result = [0] * len(players)
 
-    for i in range(times):
-        result[run(players)] += 1
+    for i in tqdm(range(times)):
+        result[run(players, 10)] += 1
     
-    for i in range(len(players)):
-        print(f'{players_names[i]} has won {result[i]} games')
+    # Idea no solo contar que gano tb contar cuantas veces gano
+    # por pegarse o por tranque
+
+    print()
+    data = list(zip(players_names, result))
+    df = pd.DataFrame(data, columns=['player_name', 'won'])
+    df = df.sort_values(by=['won'], ascending=False)
+    print(df)
+
 
 if __name__ == "__main__":
     simulate()
